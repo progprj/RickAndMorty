@@ -13,9 +13,20 @@ final class RMCharacterViewController: UIViewController {
         super.viewDidLoad()
         title = "Characters"
         view.backgroundColor = .systemBackground
-
-        // Do any additional setup after loading the view.
-    }
+        
+        let req = RMRequest(endpoint: .character, queryParams: [
+            URLQueryItem(name: "name", value: "rick"),
+            URLQueryItem(name: "status", value: "alive")
+        ]
+    )
+        print(req.url)
+        
+//        RMService.shared.execute(req, expecting: String.self) { result in
+//            switch result {
+//                
+//            }
+//        }
+}
     
 
  
