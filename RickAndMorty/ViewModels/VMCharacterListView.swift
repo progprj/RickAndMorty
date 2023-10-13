@@ -12,8 +12,7 @@ final class VMCharacterListView: NSObject {
         RMService.shared.execute(.listingCharacterRequest, expecting: RMGetAllCharactersResponse.self) { result in
             switch result {
             case .success(let model):
-                print("Total : " + String(model.info.pages))
-                print("Page Result count : " + String(model.results.count))
+                print("Example Image URL : " + String(model.results.first?.image ?? "No Image"))
             case .failure(let error):
                 print(String(describing: error))
             }
@@ -27,8 +26,14 @@ extension VMCharacterListView: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .systemGreen
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier, for: indexPath) as? RMCharacterCollectionViewCell else {
+            fatalError("cell error")
+        }
+        
+        let viewModel = RMCharacterCollectionViewCellVM(characterName: "Minkyu", characterStatus: .alive, characterImageUrl: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg"))
+        
+        cell.configure(with: viewModel)
+        
         return cell
     }
     
